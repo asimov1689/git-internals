@@ -1,0 +1,10 @@
+type: edu
+files:
+  - name: src/gitinternals/Main.kt
+    visible: true
+    learner_created: false
+  - name: test/GitInternalsTest.java
+    learner_created: false
+feedback_link: https://hyperskill.org/projects/110/stages/601/implement#comment
+status: Unchecked
+record: -1
