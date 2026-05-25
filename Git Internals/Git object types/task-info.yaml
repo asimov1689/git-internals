@@ -4,7 +4,14 @@ files:
     visible: true
     learner_created: false
   - name: test/GitInternalsTest.java
+    visible: true
     learner_created: false
+  - name: src/gitinternals/GitObjectReader.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/GitObject.kt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/110/stages/596/implement#comment
 status: Unchecked
 record: -1
