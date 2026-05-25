@@ -1,5 +1,9 @@
 package gitinternals
 
 fun main() {
-    // write your code here
+    println("Enter git object location:")
+    val path = readln()
+    val gitObject = GitObjectReader().read(path)
+    println("${gitObject.type} ${gitObject.size}")
+    println(gitObject.content)
 }

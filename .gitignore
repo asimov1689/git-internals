@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea/.author_contents_storage_db
+.idea/.author_contents_storage_db-shm
+.idea/.author_contents_storage_db-wal
+.idea/workspace.xml
+.idea/frameworkLessonHistory/
+
+# macOS
+.DS_Store
+
+# Test-generated files
+Git\ Internals/task/test/git-internals-test-files/
+Git\ Internals/task/Git\ Internals/
+util/
