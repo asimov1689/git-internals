@@ -12,9 +12,6 @@ files:
   - name: src/gitinternals/GitObjectReader.kt
     visible: true
     learner_created: true
-  - name: test/GitObjectReaderTest.kt
-    visible: true
-    learner_created: true
 feedback_link: https://hyperskill.org/projects/110/stages/595/implement#comment
 status: Solved
 feedback:
