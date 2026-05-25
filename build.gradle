@@ -57,6 +57,10 @@ subprojects {
     test {
         systemProperty "file.encoding", "utf-8"
         outputs.upToDateWhen { false }
+        doLast {
+            def phantomDir = file("$projectDir/Git Internals")
+            if (phantomDir.exists()) delete phantomDir
+        }
     }
 
     compileJava.options.encoding = 'utf-8'
