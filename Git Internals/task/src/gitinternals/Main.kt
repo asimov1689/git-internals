@@ -1,9 +1,11 @@
 package gitinternals
 
 fun main() {
-    println("Enter git object location:")
-    val path = readln()
+    println("Enter .git directory location:")
+    val dir = readln().trimEnd('/')
+    println("Enter git object hash:")
+    val hash = readln()
+    val path = "$dir/objects/${hash.substring(0, 2)}/${hash.substring(2)}"
     val gitObject = GitObjectReader().read(path)
-    println("${gitObject.type} ${gitObject.size}")
-    println(gitObject.content)
+    println("type:${gitObject.type} length:${gitObject.size}")
 }
