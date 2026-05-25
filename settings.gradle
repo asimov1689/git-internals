@@ -18,7 +18,7 @@ static String sanitizeName(String name) {
 }
 
 rootProject.projectDir.eachDirRecurse {
-    if (!isTaskDir(it) || it.path.contains(".idea")) {
+    if (!isTaskDir(it) || it.path.contains(".idea") || it.path.contains(File.separator + "build" + File.separator)) {
         return
     }
     def taskRelativePath = rootDir.toPath().relativize(it.toPath())
