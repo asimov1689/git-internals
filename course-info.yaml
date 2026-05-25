@@ -10,6 +10,11 @@ summary: "<p>Widely used in industry and education, Git is probably the most pop
 programming_language: Kotlin
 content:
   - Git Internals
-additional_files: [ ]
+  - Topics
+additional_files:
+  - name: build.gradle
+    visible: true
+  - name: settings.gradle
+    visible: true
 mode: Study
 yaml_version: 5
