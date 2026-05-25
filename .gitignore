@@ -15,6 +15,9 @@ build/
 # macOS
 .DS_Store
 
+# Code summaries (local only)
+*_code_summaries.md
+
 # Test-generated files
 Git\ Internals/task/test/git-internals-test-files/
 Git\ Internals/task/Git\ Internals/
