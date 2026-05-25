@@ -1,5 +1,6 @@
-package gitinternals
+package gitinternals.unit
 
+import gitinternals.GitObjectReader
 import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
