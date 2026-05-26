@@ -19,6 +19,12 @@ fun main() {
             print(BranchLister().list(gitDir).joinToString("\n"))
         }
 
+        "log" -> {
+            println("Enter branch name:")
+            val branch = readln()
+            print(GitLogReader().read(gitDir, branch))
+        }
+
         else -> {
             error("Unsupported command")
         }
