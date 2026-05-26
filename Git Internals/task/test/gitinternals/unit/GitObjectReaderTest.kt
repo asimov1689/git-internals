@@ -86,12 +86,17 @@ class GitObjectReaderTest {
     }
 
     @Test
-    fun `should throw UnsupportedOperationException for tree type`() {
+    fun `should return Tree for tree type`() {
         // Arrange
-        val path = objectFile("tree", "binary-placeholder")
+        val sha = "2b26c15c04375d90203783fb4c2a45ff04b571a6"
+        val path = objectFile("tree", treeBody("100644", sha, "main.kt"))
 
-        // Act & Assert
-        assertThrows(UnsupportedOperationException::class.java) { reader.read(path) }
+        // Act
+        val result = reader.read(path)
+
+        // Assert
+        assertTrue(result is GitObject.Tree)
+        assertEquals(sha, (result as GitObject.Tree).entries[0].sha1)
     }
 
     @Test
@@ -138,6 +143,33 @@ class GitObjectReaderTest {
         val file = File.createTempFile("git-obj-$type", null).also { it.deleteOnExit() }
         DeflaterOutputStream(file.outputStream()).use { it.write(raw) }
         return file.absolutePath
+    }
+
+    private fun objectFile(
+        type: String,
+        contentBytes: ByteArray,
+        sizeOverride: Int? = null,
+    ): String {
+        val raw = "$type ${sizeOverride ?: contentBytes.size}".toByteArray() + byteArrayOf(0) + contentBytes
+        val file = File.createTempFile("git-obj-$type", null).also { it.deleteOnExit() }
+        DeflaterOutputStream(file.outputStream()).use { it.write(raw) }
+        return file.absolutePath
+    }
+
+    private fun treeBody(
+        permissions: String,
+        sha1Hex: String,
+        name: String,
+    ): ByteArray {
+        val out = mutableListOf<Byte>()
+        permissions.toByteArray(Charsets.UTF_8).forEach { out += it }
+        out += 0x20.toByte()
+        name.toByteArray(Charsets.UTF_8).forEach { out += it }
+        out += 0x00.toByte()
+        for (i in 0 until 40 step 2) {
+            out += sha1Hex.substring(i, i + 2).toInt(16).toByte()
+        }
+        return out.toByteArray()
     }
 
     private fun validCommitBody(): String =
