@@ -25,6 +25,12 @@ fun main() {
             print(GitLogReader().read(gitDir, branch))
         }
 
+        "commit-tree" -> {
+            println("Enter commit-hash:")
+            val hash = readln()
+            print(FullTreeReader().read(gitDir, hash))
+        }
+
         else -> {
             error("Unsupported command")
         }
