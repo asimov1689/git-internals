@@ -14,6 +14,8 @@ jobs:
   lint-and-test:
     name: ktlint + build + test
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
 
     steps:
       - name: Checkout
@@ -50,3 +52,19 @@ jobs:
           name: test-report
           path: "Git Internals/task/build/reports/tests/test/"
           retention-days: 7
+
+      - name: Cancel queued PR check on push failure
+        if: ${{ failure() && github.event_name == 'push' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/actions/runs" \
+            --jq '.workflow_runs[]
+                  | select(.event == "pull_request")
+                  | select(.status == "queued")
+                  | select(.head_sha == "${{ github.sha }}")
+                  | .id' \
+          | while read RUN_ID; do
+              echo "Cancelling queued PR run $RUN_ID"
+              gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/cancel" -X POST
+            done
