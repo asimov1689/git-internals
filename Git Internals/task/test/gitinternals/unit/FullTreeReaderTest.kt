@@ -104,7 +104,11 @@ class FullTreeReaderTest {
             entry.name.toByteArray(Charsets.UTF_8).forEach { body += it }
             body += 0x00.toByte()
             for (i in 0 until 40 step 2) {
-                body += entry.sha1.substring(i, i + 2).toInt(16).toByte()
+                body +=
+                    entry.sha1
+                        .substring(i, i + 2)
+                        .toInt(16)
+                        .toByte()
             }
         }
         writeObject(gitDir, hash, "tree", body.toByteArray())
