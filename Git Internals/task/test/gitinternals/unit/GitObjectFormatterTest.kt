@@ -9,7 +9,6 @@ import org.junit.Test
 import java.time.ZoneOffset
 
 class GitObjectFormatterTest {
-
     // ── blob ──────────────────────────────────────────────────────────────────
 
     @Test

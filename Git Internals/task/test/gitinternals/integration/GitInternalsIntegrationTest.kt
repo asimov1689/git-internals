@@ -13,7 +13,6 @@ import java.util.zip.DeflaterOutputStream
 import kotlin.io.path.createTempDirectory
 
 class GitInternalsIntegrationTest {
-
     // ── blob pipeline ─────────────────────────────────────────────────────────
 
     @Test
@@ -95,7 +94,10 @@ class GitInternalsIntegrationTest {
 
     // ── fake repo builder ─────────────────────────────────────────────────────
 
-    private fun fakeRepo(type: String, content: String): Pair<String, String> {
+    private fun fakeRepo(
+        type: String,
+        content: String,
+    ): Pair<String, String> {
         val hash = "490f96725348e92770d3c6bab9ec532564b7ebe0"
         val gitDir = createTempDirectory().toFile()
         val objectDir = File("${gitDir.absolutePath}/objects/${hash.substring(0, 2)}")
