@@ -37,9 +37,11 @@ subprojects {
         mavenCentral()
         maven { url "https://packages.jetbrains.team/maven/p/hyperskill-hs-test/maven" }
         maven { url "https://jitpack.io" }
+        maven { url "https://repo.eclipse.org/content/groups/releases/" }
     }
 
     dependencies {
+        implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.6.2'
         testImplementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
         testImplementation 'org.eclipse.jgit:org.eclipse.jgit:7.5.0.202512021534-r'
         testImplementation 'org.slf4j:slf4j-simple:2.0.17'
@@ -69,18 +71,6 @@ subprojects {
     }
 }
 
-project(':util') {
-    dependencies {
-        implementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
-    }
-}
-
-configure(subprojects.findAll {it.name != 'util'}) {
-    dependencies {
-        testImplementation project(':util').sourceSets.main.output
-        testImplementation project(':util').sourceSets.test.output
-    }
-}
 
 wrapper {
     gradleVersion = hs.gradle.version
