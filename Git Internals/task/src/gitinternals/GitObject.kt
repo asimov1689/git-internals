@@ -13,4 +13,8 @@ sealed class GitObject {
         val committer: Contributor,
         val message: String,
     ) : GitObject()
+
+    data class Tree(
+        val entries: List<TreeEntry>,
+    ) : GitObject()
 }
