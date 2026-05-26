@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '23'
           distribution: 'temurin'
 
       - name: Setup Gradle
@@ -35,13 +35,12 @@ jobs:
         run: ktlint "src/**/*.kt" "test/**/*.kt"
 
       - name: Build and test
-        run: ./gradlew clean build test --stacktrace
+        run: ./gradlew clean build test
 
-      - name: Upload build dir for debugging
-        if: always()
+      - name: Upload test report
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-debug
-          path: "Git Internals/task/build/"
-          if-no-files-found: warn
-          retention-days: 3
+          name: test-report
+          path: "Git Internals/task/build/reports/tests/test/"
+          retention-days: 7
