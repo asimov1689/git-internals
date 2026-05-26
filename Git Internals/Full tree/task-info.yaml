@@ -6,6 +6,45 @@ files:
   - name: test/GitInternalsTest.java
     visible: true
     learner_created: false
+  - name: src/gitinternals/GitObjectReader.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/BranchLister.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/GitPathResolver.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/GitObjectFormatter.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/GitObject.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/GitLogReader.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/TreeEntry.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/TreeParser.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/Contributor.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/CommitParser.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/FullTreeReader.kt
+    visible: true
+    learner_created: true
+  - name: test/gitinternals/unit/FullTreeReaderTest.kt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/110/stages/601/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 26 May 2026 19:36:38 UTC"
 record: -1
