@@ -7,8 +7,9 @@ fun main() {
     println("Enter git object hash:")
     val hash = readln()
 
-    val path      = GitPathResolver().resolve(gitDir, hash)
-    val gitObject = GitObjectReader().read(path)
+    val path = GitPathResolver().resolve(gitDir, hash)
+    val obj = GitObjectReader().read(path)
+    val output = GitObjectFormatter.format(obj)
 
-    println("type:${gitObject.type} length:${gitObject.size}")
+    print(output)
 }

@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, stage-* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    name: ktlint + build + test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Install ktlint
+        run: |
+          curl -sSLO https://github.com/pinterest/ktlint/releases/download/1.8.0/ktlint
+          chmod +x ktlint
+          sudo mv ktlint /usr/local/bin/
+
+      - name: ktlint check
+        working-directory: "Git Internals/task"
+        run: ktlint "src/**/*.kt" "test/**/*.kt"
+
+      - name: Build and test
+        working-directory: "Git Internals"
+        run: ./gradlew clean build test
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: "Git Internals/task/build/reports/tests/test/"
+          retention-days: 7
