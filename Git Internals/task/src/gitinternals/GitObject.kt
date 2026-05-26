@@ -1,7 +1,16 @@
 package gitinternals
 
-data class GitObject(
-    val type: String,
-    val size: Int,
-    val content: String
-)
+sealed class GitObject {
+    data class Blob(
+        val size: Int,
+        val content: String,
+    ) : GitObject()
+
+    data class Commit(
+        val tree: String,
+        val parents: List<String>,
+        val author: Contributor,
+        val committer: Contributor,
+        val message: String,
+    ) : GitObject()
+}

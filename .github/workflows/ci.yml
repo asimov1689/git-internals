@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, stage-* ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: CI-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  lint-and-test:
+    name: ktlint + build + test
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '23'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Install ktlint
+        run: |
+          curl -sSLO https://github.com/pinterest/ktlint/releases/download/1.8.0/ktlint
+          chmod +x ktlint
+          sudo mv ktlint /usr/local/bin/
+
+      - name: ktlint check
+        working-directory: "Git Internals/task"
+        run: ktlint "src/**/*.kt" "test/**/*.kt"
+
+      - name: Build and test
+        run: ./gradlew clean build test
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: "Git Internals/task/build/reports/tests/test/"
+          retention-days: 7
+
+      - name: Cancel queued PR check on push failure
+        if: ${{ failure() && github.event_name == 'push' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/actions/runs" \
+            --jq '.workflow_runs[]
+                  | select(.event == "pull_request")
+                  | select(.status == "queued")
+                  | select(.head_sha == "${{ github.sha }}")
+                  | .id' \
+          | while read RUN_ID; do
+              echo "Cancelling queued PR run $RUN_ID"
+              gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/cancel" -X POST
+            done
