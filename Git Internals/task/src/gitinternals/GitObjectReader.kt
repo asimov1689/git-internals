@@ -5,30 +5,40 @@ import java.util.zip.InflaterInputStream
 
 class GitObjectReader(
     private val commitParser: CommitParser = CommitParser(),
+    private val treeParser: TreeParser = TreeParser(),
 ) {
     fun read(path: String): GitObject {
-        val raw = InflaterInputStream(File(path).inputStream()).use { it.readBytes() }
+        val raw = decompress(path)
         return parse(raw)
     }
+
+    private fun decompress(path: String): ByteArray = InflaterInputStream(File(path).inputStream()).use { it.readBytes() }
 
     private fun parse(raw: ByteArray): GitObject {
         val nullIndex = raw.indexOfNullByte()
         require(nullIndex != -1) { "Invalid Git object: missing null byte separator" }
 
         val header = String(raw, 0, nullIndex, Charsets.UTF_8)
-        val body = String(raw, nullIndex + 1, raw.size - nullIndex - 1, Charsets.UTF_8)
-        val parts = header.split(" ")
+        val bodyBytes = raw.copyOfRange(nullIndex + 1, raw.size)
 
+        val parts = header.split(" ")
         require(parts.size == 2) { "Invalid Git object header: '$header'" }
 
+        val type = parts[0]
         val size =
             parts[1].toIntOrNull()
                 ?: throw IllegalArgumentException("Non-numeric size in header: '${parts[1]}'")
 
-        return when (parts[0]) {
-            "blob" -> GitObject.Blob(size = size, content = body.trimEnd('\n'))
-            "commit" -> commitParser.parse(body)
-            else -> throw UnsupportedOperationException("Unsupported type: '${parts[0]}'")
+        return when (type) {
+            "blob" -> GitObject.Blob(size = size, content = String(bodyBytes, Charsets.UTF_8).trimEnd('\n'))
+
+            "commit" -> commitParser.parse(String(bodyBytes, Charsets.UTF_8))
+
+            "tree" -> treeParser.parse(bodyBytes)
+
+            else -> throw UnsupportedOperationException(
+                "Unsupported Git object type: '$type'. Stage-004 handles blob, commit, and tree.",
+            )
         }
     }
 
