@@ -35,12 +35,13 @@ jobs:
         run: ktlint "src/**/*.kt" "test/**/*.kt"
 
       - name: Build and test
-        run: ./gradlew clean build test --stacktrace 2>&1
+        run: ./gradlew clean build test --stacktrace
 
-      - name: Upload test report
-        if: failure()
+      - name: Upload build dir for debugging
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-report
-          path: "Git Internals/task/build/reports/tests/test/"
-          retention-days: 7
+          name: build-debug
+          path: "Git Internals/task/build/"
+          if-no-files-found: warn
+          retention-days: 3
