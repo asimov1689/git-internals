@@ -5,13 +5,10 @@ object GitObjectFormatter {
         when (obj) {
             is GitObject.Blob -> formatBlob(obj)
             is GitObject.Commit -> formatCommit(obj)
+            is GitObject.Tree -> formatTree(obj)
         }
 
-    private fun formatBlob(blob: GitObject.Blob): String =
-        buildString {
-            appendLine("*BLOB*")
-            append(blob.content)
-        }
+    private fun formatBlob(blob: GitObject.Blob): String = "*BLOB*\n${blob.content}"
 
     private fun formatCommit(commit: GitObject.Commit): String =
         buildString {
@@ -28,5 +25,13 @@ object GitObjectFormatter {
             )
             appendLine("commit message:")
             append(commit.message)
+        }
+
+    private fun formatTree(tree: GitObject.Tree): String =
+        buildString {
+            append("*TREE*")
+            tree.entries.forEach { entry ->
+                append("\n${entry.permissions} ${entry.sha1} ${entry.name}")
+            }
         }
 }
