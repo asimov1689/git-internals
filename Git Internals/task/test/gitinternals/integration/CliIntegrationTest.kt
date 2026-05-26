@@ -67,7 +67,14 @@ class CliIntegrationTest {
         val subTree = "0000000000000000000000000000000000000005"
         val nestedFile = "0000000000000000000000000000000000000006"
 
-        writeCommit(gitDir, commitHash, treeHash = rootTree, parents = emptyList(), committerEpoch = "1585491052", message = "initial commit")
+        writeCommit(
+            gitDir,
+            commitHash,
+            treeHash = rootTree,
+            parents = emptyList(),
+            committerEpoch = "1585491052",
+            message = "initial commit",
+        )
         writeTree(
             gitDir,
             rootTree,
@@ -172,7 +179,11 @@ class CliIntegrationTest {
             entry.name.toByteArray(Charsets.UTF_8).forEach { body += it }
             body += 0x00.toByte()
             for (i in 0 until 40 step 2) {
-                body += entry.sha1.substring(i, i + 2).toInt(16).toByte()
+                body +=
+                    entry.sha1
+                        .substring(i, i + 2)
+                        .toInt(16)
+                        .toByte()
             }
         }
         val raw = "tree ${body.size}".toByteArray() + byteArrayOf(0) + body.toByteArray()
