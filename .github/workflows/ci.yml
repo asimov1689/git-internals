@@ -35,7 +35,7 @@ jobs:
         run: ktlint "src/**/*.kt" "test/**/*.kt"
 
       - name: Build and test
-        run: ./gradlew clean build test
+        run: ./gradlew clean build test --stacktrace 2>&1
 
       - name: Upload test report
         if: failure()
