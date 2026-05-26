@@ -37,7 +37,6 @@ jobs:
         run: ktlint "src/**/*.kt" "test/**/*.kt"
 
       - name: Build and test
-        working-directory: "Git Internals"
         run: ./gradlew clean build test
 
       - name: Upload test report
