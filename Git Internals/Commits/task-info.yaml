@@ -1,0 +1,41 @@
+type: edu
+files:
+  - name: src/gitinternals/Main.kt
+    visible: true
+    learner_created: false
+  - name: test/GitInternalsTest.java
+    visible: true
+    learner_created: false
+  - name: src/gitinternals/GitObjectReader.kt
+    visible: true
+    learner_created: false
+  - name: src/gitinternals/GitObject.kt
+    visible: true
+    learner_created: false
+  - name: src/gitinternals/GitPathResolver.kt
+    visible: true
+    learner_created: false
+  - name: src/gitinternals/Contributor.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/CommitParser.kt
+    visible: true
+    learner_created: true
+  - name: src/gitinternals/GitObjectFormatter.kt
+    visible: true
+    learner_created: true
+  - name: test/gitinternals/unit/CommitParserTest.kt
+    visible: true
+    learner_created: true
+  - name: test/gitinternals/unit/GitObjectFormatterTest.kt
+    visible: true
+    learner_created: true
+  - name: test/gitinternals/integration/GitInternalsIntegrationTest.kt
+    visible: true
+    learner_created: true
+feedback_link: https://hyperskill.org/projects/110/stages/597/implement#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 26 May 2026 12:47:07 UTC"
+record: -1
